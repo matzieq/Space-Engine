@@ -1,4 +1,7 @@
-class GameObject {
+let SpaceEngine = {};
+
+
+SpaceEngine.GameObject = class  {
     constructor (x, y, width, height, color, gameContext) {
         this.x = x;
         this.y = y;
@@ -27,7 +30,7 @@ class GameObject {
     }
 }
 
-class Game {
+SpaceEngine.Game = class {
     constructor(width, height) {
         const canvasElement = document.createElement('canvas');
         canvasElement.id = 'canvas';
@@ -56,7 +59,7 @@ class Game {
     }
 
     createGameObject (x, y, width, height, color) {
-        const newObject = new GameObject(x, y, width, height, color, this);
+        const newObject = new SpaceEngine.GameObject(x, y, width, height, color, this);
         this.gameObjectList.push(newObject);
         return newObject;
     }
