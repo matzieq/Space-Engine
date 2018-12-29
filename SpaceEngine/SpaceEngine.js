@@ -1,6 +1,6 @@
-import GameObject from './GameObject.js';
-import Level from './Level.js';
-import Keyboard from './Keyboard.js';
+import GameObject from './Modules/GameObject.js';
+import Level from './Modules/Level.js';
+import Keyboard from './Modules/Keyboard.js';
 /**
  *  SPACE ENGINE by President of Space
  *          v. 0.01
