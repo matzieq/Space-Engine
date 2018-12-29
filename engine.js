@@ -30,6 +30,20 @@ SpaceEngine.GameObject = class  {
     }
 }
 
+SpaceEngine.Level = class {
+    constructor(game) {
+        this.levelObjectList = [];
+        this.game = game;
+        this.blackBackground = this.createGameObject(0, 0, game.width, game.height, '#000');
+    }
+
+    createGameObject (x, y, width, height, color) {
+        const newObject = new SpaceEngine.GameObject(x, y, width, height, color, this.game);
+        this.levelObjectList.push(newObject);
+        return newObject;
+    }
+}
+
 SpaceEngine.Game = class {
     constructor(width, height) {
         const canvasElement = document.createElement('canvas');
@@ -42,9 +56,13 @@ SpaceEngine.Game = class {
         this.height = height;
         this.ctx = canvasElement.getContext('2d');
 
-        //this will be used in the draw method to draw all objects
-        this.gameObjectList = []; 
-        this.blackBackground = this.createGameObject(0, 0, width, height, '#000');
+        //each level holds object data for a single scene
+        this.levelList = [];
+        this.currentLevel = 0;
+
+        this.levelList[this.currentLevel] = new SpaceEngine.Level(this);
+
+        console.log(this.levelList);
         
         //this is used to calculate deltatime
         this.initialTime = 0;
@@ -59,13 +77,12 @@ SpaceEngine.Game = class {
     }
 
     createGameObject (x, y, width, height, color) {
-        const newObject = new SpaceEngine.GameObject(x, y, width, height, color, this);
-        this.gameObjectList.push(newObject);
+        const newObject = this.levelList[this.currentLevel].createGameObject(x, y, width, height, color);
         return newObject;
     }
 
     drawAndUpdateObjects(dt) {       
-        for (let gameObject of this.gameObjectList) {
+        for (let gameObject of this.levelList[this.currentLevel].levelObjectList) {
             gameObject.draw();
             gameObject.update(dt);
         }
